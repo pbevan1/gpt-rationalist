@@ -11,7 +11,7 @@ def main():
     validate_data(config())
     files = [Path(name) for name in (
         'README.md', 'SOURCES.md', 'config.json', 'style_pairs.jsonl', 'eval_prompts.jsonl',
-        'requirements-prep.txt', 'requirements-train.txt', 'requirements-cloud.lock',
+        'pyproject.toml', 'uv.lock', '.python-version',
         'common.py', 'style.py', 'prepare.py', 'train.py', 'chat.py', 'evaluate.py',
         'collect.py', 'reference.py', 'pack.py', 'tests/test_pipeline.py',
     )]

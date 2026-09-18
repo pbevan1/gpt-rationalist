@@ -1,0 +1,20 @@
+[project]
+name = "gpt-rationalist"
+version = "0.1.0"
+description = "A small LoRA experiment for rationalist verbal mannerisms"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "beautifulsoup4==4.14.3",
+    "requests==2.32.5",
+    "transformers==5.17.0",
+]
+
+[dependency-groups]
+train = [
+    "torch==2.10.0",
+    "peft==0.18.1",
+    "accelerate==1.12.0",
+]
+
+[tool.uv]
+package = false

@@ -21,7 +21,7 @@ has deliberately not been started. The exact model revision and dependencies are
 - `train.py`, `chat.py`, and `evaluate.py`: train, use, and compare the adapter.
 - `data/prepared/style_coverage.json`: response counts and example IDs for each
   tracked expression family, separately for training and validation.
-- `rationalist-lora-cloud.tar.gz`: transfer bundle, made by `python pack.py`.
+- `rationalist-lora-cloud.tar.gz`: transfer bundle, made by `uv run --locked pack.py`.
 
 This is a deliberately small first experiment: 12,142 supervised training tokens,
 three epochs, rank 16, learning rate 5e-5, effective batch size 16. The prose is
@@ -54,7 +54,7 @@ Use an **x86-64 Linux machine, Python 3.12, and a BF16-capable NVIDIA GPU**.
 A **24 GB RTX 4090, A10, or L4** is a sensible starting target. Allow roughly 40 GB
 of disk for the environment, model download, and outputs. These are planning
 estimates; full-model GPU memory and speed have not been measured here.
-The Linux lockfile uses PyTorch's CUDA 12.8 wheels; choose an image with a compatible
+On Linux x86-64, the lockfile selects PyTorch's CUDA 12.8 dependencies; choose an image with a compatible
 NVIDIA driver (a current CUDA 12.8 image is a straightforward choice).
 
 Copy `rationalist-lora-cloud.tar.gz` to that machine, then:
@@ -62,20 +62,19 @@ Copy `rationalist-lora-cloud.tar.gz` to that machine, then:
 ```bash
 tar -xzf rationalist-lora-cloud.tar.gz
 cd rationalist-lora
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-cloud.lock
-python train.py --check
+uv sync --locked --group train
+uv run --locked --group train train.py --check
 ```
 
-If the cloud image already has a Python 3.12 virtual environment, use that instead.
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/) first.
+uv manages Python 3.12 and the project virtual environment.
 No API keys or paid teacher calls are required. The initial model download is public.
 
 First run a five-step GPU smoke test, then start the real run in its own directory:
 
 ```bash
-python train.py --max-steps 5 --output outputs/smoke
-python train.py
+uv run --locked --group train train.py --max-steps 5 --output outputs/smoke
+uv run --locked --group train train.py
 ```
 
 The smoke test performs real adapter updates. It is separate from the full run.
@@ -86,7 +85,7 @@ On this small dataset, treat validation loss as a rough diagnostic; read the out
 To resume an interrupted full run, use the actual latest checkpoint directory:
 
 ```bash
-python train.py --resume outputs/rationalist-lora/checkpoint-12
+uv run --locked --group train train.py --resume outputs/rationalist-lora/checkpoint-12
 ```
 
 The number above is an example; inspect your output directory. Reusing a nonempty
@@ -96,10 +95,10 @@ including `run_config.json`, when moving an adapter.
 ## Compare the voice
 
 ```bash
-python chat.py --base --eval-file eval_prompts.jsonl --output outputs/base.jsonl
-python chat.py --eval-file eval_prompts.jsonl --output outputs/styled.jsonl
-python evaluate.py outputs/base.jsonl outputs/styled.jsonl
-python chat.py --prompt "I keep researching bread recipes instead of baking anything."
+uv run --locked --group train chat.py --base --eval-file eval_prompts.jsonl --output outputs/base.jsonl
+uv run --locked --group train chat.py --eval-file eval_prompts.jsonl --output outputs/styled.jsonl
+uv run --locked evaluate.py outputs/base.jsonl outputs/styled.jsonl
+uv run --locked --group train chat.py --prompt "I keep researching bread recipes instead of baking anything."
 ```
 
 Read `outputs/comparison.md`. Check the mannerisms, helpfulness, factual consistency,
@@ -119,18 +118,18 @@ Adding more varied high-quality pairs is preferable to repeatedly duplicating th
 On your laptop:
 
 ```bash
-python3.12 -m venv .venv
-source .venv/bin/activate
-python -m pip install -r requirements-prep.txt
-python prepare.py
-python train.py --check
-python pack.py
+uv sync --locked
+uv run --locked prepare.py
+uv run --locked train.py --check
+uv run --locked pack.py
 ```
 
-Preparation downloads only the tokenizer. To run the tiny CPU model tests, install
-`requirements-train.txt` instead, then `python -m unittest discover -s tests -v`.
-The existing local `.venv` is already set up. `HF_HUB_OFFLINE=1 python prepare.py`
-rebuilds with the cached tokenizer. `python train.py --check` requires no GPU or weights.
+Preparation downloads only the tokenizer. To run the tiny CPU model tests, use
+`uv run --locked --group train -m unittest discover -s tests -v`.
+Dependencies live in `pyproject.toml`; `uv.lock` pins the resolved versions for
+preparation and training. The optional `train` group adds PyTorch, PEFT, and Accelerate.
+`HF_HUB_OFFLINE=1 uv run --locked prepare.py`
+rebuilds with the cached tokenizer. `uv run --locked train.py --check` requires no GPU or weights.
 
 For **Qwen3.5-9B**, change `model` to `Qwen/Qwen3.5-9B`, replace `revision` with
 that model's commit SHA (or `main` for an unpinned experiment), and rerun preparation.
@@ -146,8 +145,8 @@ acceleration is deliberately outside the pinned first-run environment.
 The 2,650 collected public posts from LessWrong, EA Forum, Alignment Forum, Zvi,
 and Slate Star Codex are **local style references only**. They are excluded from
 the train/validation files and the transfer archive. See [SOURCES.md](SOURCES.md).
-`python reference.py` produces short attributed phrase examples and rough counts;
-`python collect.py` refreshes through cached public APIs. It never accesses private
+`uv run --locked reference.py` produces short attributed phrase examples and rough counts;
+`uv run --locked collect.py` refreshes through cached public APIs. It never accesses private
 or paywalled content. `--limit` replaces each selected source's local snapshot, so
 use it only when you intentionally want a smaller reference collection.
 
