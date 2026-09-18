@@ -1,0 +1,20 @@
+{
+  "model": "Qwen/Qwen3.5-4B",
+  "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+  "seed": 42,
+  "max_length": 768,
+  "validation_fraction": 0.10,
+  "lora_rank": 16,
+  "lora_alpha": 32,
+  "learning_rate": 0.00005,
+  "epochs": 3,
+  "gradient_accumulation_steps": 16,
+  "system_prompt": "You are a helpful assistant. Write clearly and thoughtfully.",
+  "sources": [
+    {"name": "lesswrong", "kind": "forum", "url": "https://www.lesswrong.com", "limit": 1200, "min_score": 50},
+    {"name": "ea_forum", "kind": "forum", "url": "https://forum.effectivealtruism.org", "limit": 800, "min_score": 30},
+    {"name": "alignment_forum", "kind": "forum", "url": "https://www.alignmentforum.org", "limit": 250, "min_score": 20},
+    {"name": "the_zvi", "kind": "wordpress", "site": "thezvi.wordpress.com", "url": "https://thezvi.wordpress.com", "limit": 200},
+    {"name": "slate_star_codex", "kind": "wordpress_v2", "url": "https://slatestarcodex.com", "author": "Scott Alexander", "limit": 200}
+  ]
+}

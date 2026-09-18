@@ -1,0 +1,131 @@
+{
+  "config": {
+    "model": "Qwen/Qwen3.5-4B",
+    "revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "seed": 42,
+    "max_length": 768,
+    "validation_fraction": 0.1,
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "learning_rate": 5e-05,
+    "epochs": 3,
+    "gradient_accumulation_steps": 16,
+    "system_prompt": "You are a helpful assistant. Write clearly and thoughtfully.",
+    "sources": [
+      {
+        "name": "lesswrong",
+        "kind": "forum",
+        "url": "https://www.lesswrong.com",
+        "limit": 1200,
+        "min_score": 50
+      },
+      {
+        "name": "ea_forum",
+        "kind": "forum",
+        "url": "https://forum.effectivealtruism.org",
+        "limit": 800,
+        "min_score": 30
+      },
+      {
+        "name": "alignment_forum",
+        "kind": "forum",
+        "url": "https://www.alignmentforum.org",
+        "limit": 250,
+        "min_score": 20
+      },
+      {
+        "name": "the_zvi",
+        "kind": "wordpress",
+        "site": "thezvi.wordpress.com",
+        "url": "https://thezvi.wordpress.com",
+        "limit": 200
+      },
+      {
+        "name": "slate_star_codex",
+        "kind": "wordpress_v2",
+        "url": "https://slatestarcodex.com",
+        "author": "Scott Alexander",
+        "limit": 200
+      }
+    ]
+  },
+  "dataset": "Original verbal-style pairs; no reference essay text",
+  "pairs_sha256": "53922e41cb8b7c5aa93f7a9dc6599eec09d8d043f30751741562073042dbc2ee",
+  "tokenizer_sha256": {
+    "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+    "tokenizer.json": "06b9509352d2af50381ab2247e083b80d32d5c0aba91c272ca9ff729b6a0e523",
+    "tokenizer_config.json": "f842671db16546726c2818d71390d4b7cd2f7761b208818476473499e03e9883"
+  },
+  "pairs": 296,
+  "splits": {
+    "train": {
+      "groups": 49,
+      "examples": 264,
+      "tokens": 22644,
+      "supervised_tokens": 12142,
+      "max_length": 143,
+      "style_markers": {
+        "excited": 79,
+        "hedges": 16,
+        "capitalized_phrase": 160,
+        "my_model": 56,
+        "epistemic": 57,
+        "priors_updates": 11,
+        "conditional": 10,
+        "orthogonal": 14,
+        "load_bearing": 9,
+        "crux": 9,
+        "operationalise": 9,
+        "salient": 8,
+        "robust_actionable": 14,
+        "scope_qualifiers": 8,
+        "affordance": 8,
+        "bottleneck": 8,
+        "charitable_disagreement": 17,
+        "community_terms": 30,
+        "views_levels": 15,
+        "on_the_margin": 6,
+        "nontrivial": 5,
+        "directionally": 6,
+        "legibility": 12,
+        "gears_level": 5,
+        "cached_thought": 5,
+        "counterfactual": 6
+      },
+      "controls": 24,
+      "sha256": "90220f28753ad14a1e395f7c37804d5c66e12d03e64f73818a5118d84f1c978c",
+      "documents_sha256": "b899203f5d24f4b130ca23391493e2e685a9c0a05f77e31e521176950e8cfd70"
+    },
+    "validation": {
+      "groups": 5,
+      "examples": 32,
+      "tokens": 2811,
+      "supervised_tokens": 1466,
+      "max_length": 140,
+      "style_markers": {
+        "excited": 9,
+        "capitalized_phrase": 18,
+        "my_model": 6,
+        "epistemic": 5,
+        "hedges": 4,
+        "directionally": 1,
+        "on_the_margin": 1,
+        "bottleneck": 1,
+        "affordance": 1,
+        "robust_actionable": 4,
+        "scope_qualifiers": 2,
+        "operationalise": 1,
+        "legibility": 3,
+        "orthogonal": 2,
+        "load_bearing": 2,
+        "charitable_disagreement": 2,
+        "community_terms": 1,
+        "crux": 1,
+        "views_levels": 1
+      },
+      "controls": 8,
+      "sha256": "68fe4db8099bb96ec7a0d79d9b5c5c4e677119c910e1c768091601aff9a91162",
+      "documents_sha256": "6d6f537c5bcb981918361424f39dd5c6c516e5b7b230fe9644f348fd6c1c7f86"
+    }
+  }
+}

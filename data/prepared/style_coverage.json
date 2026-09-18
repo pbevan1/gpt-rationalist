@@ -1,0 +1,434 @@
+{
+  "train": {
+    "epistemic": {
+      "responses": 57,
+      "example_ids": [
+        "desk-3",
+        "pantry-1",
+        "pantry-4",
+        "baking-1",
+        "baking-4"
+      ]
+    },
+    "excited": {
+      "responses": 78,
+      "example_ids": [
+        "desk-1",
+        "desk-4",
+        "pantry-2",
+        "lunch-1",
+        "lunch-4"
+      ]
+    },
+    "capitalized_phrase": {
+      "responses": 134,
+      "example_ids": [
+        "desk-2",
+        "desk-3",
+        "pantry-2",
+        "pantry-3",
+        "pantry-4"
+      ]
+    },
+    "my_model": {
+      "responses": 56,
+      "example_ids": [
+        "desk-2",
+        "pantry-3",
+        "lunch-2",
+        "baking-3",
+        "tea-3"
+      ]
+    },
+    "priors_updates": {
+      "responses": 10,
+      "example_ids": [
+        "pet-3",
+        "wide-003",
+        "wide-005",
+        "wide-018",
+        "wide-033"
+      ]
+    },
+    "hedges": {
+      "responses": 15,
+      "example_ids": [
+        "desk-1",
+        "tea-4",
+        "spreadsheet-2",
+        "wide-017",
+        "wide-022"
+      ]
+    },
+    "community_terms": {
+      "responses": 25,
+      "example_ids": [
+        "wide-016",
+        "wide-018",
+        "wide-021",
+        "wide-025",
+        "wide-028"
+      ]
+    },
+    "orthogonal": {
+      "responses": 14,
+      "example_ids": [
+        "wide-001",
+        "wide-003",
+        "wide-006",
+        "wide-007",
+        "wide-013"
+      ]
+    },
+    "crux": {
+      "responses": 9,
+      "example_ids": [
+        "wide-002",
+        "wide-007",
+        "wide-016",
+        "wide-023",
+        "wide-028"
+      ]
+    },
+    "load_bearing": {
+      "responses": 9,
+      "example_ids": [
+        "wide-001",
+        "wide-004",
+        "wide-019",
+        "wide-037",
+        "wide-051"
+      ]
+    },
+    "directionally": {
+      "responses": 6,
+      "example_ids": [
+        "wide-022",
+        "wide-026",
+        "wide-044",
+        "wide-062",
+        "wide-073"
+      ]
+    },
+    "operationalise": {
+      "responses": 9,
+      "example_ids": [
+        "wide-002",
+        "wide-006",
+        "wide-027",
+        "wide-030",
+        "wide-040"
+      ]
+    },
+    "legibility": {
+      "responses": 12,
+      "example_ids": [
+        "wide-023",
+        "wide-024",
+        "wide-027",
+        "wide-030",
+        "wide-035"
+      ]
+    },
+    "on_the_margin": {
+      "responses": 6,
+      "example_ids": [
+        "wide-017",
+        "wide-029",
+        "wide-032",
+        "wide-046",
+        "wide-056"
+      ]
+    },
+    "nontrivial": {
+      "responses": 5,
+      "example_ids": [
+        "wide-020",
+        "wide-031",
+        "wide-039",
+        "wide-057",
+        "wide-076"
+      ]
+    },
+    "bottleneck": {
+      "responses": 8,
+      "example_ids": [
+        "wide-014",
+        "wide-026",
+        "wide-031",
+        "wide-052",
+        "wide-059"
+      ]
+    },
+    "conditional": {
+      "responses": 10,
+      "example_ids": [
+        "knit-1",
+        "wide-005",
+        "wide-019",
+        "wide-023",
+        "wide-036"
+      ]
+    },
+    "cached_thought": {
+      "responses": 5,
+      "example_ids": [
+        "wide-030",
+        "wide-048",
+        "wide-060",
+        "wide-063",
+        "wide-068"
+      ]
+    },
+    "views_levels": {
+      "responses": 11,
+      "example_ids": [
+        "wide-016",
+        "wide-018",
+        "wide-021",
+        "wide-025",
+        "wide-044"
+      ]
+    },
+    "charitable_disagreement": {
+      "responses": 14,
+      "example_ids": [
+        "wide-014",
+        "wide-022",
+        "wide-024",
+        "wide-028",
+        "wide-037"
+      ]
+    },
+    "counterfactual": {
+      "responses": 6,
+      "example_ids": [
+        "wide-034",
+        "wide-047",
+        "wide-067",
+        "wide-075",
+        "wide-077"
+      ]
+    },
+    "gears_level": {
+      "responses": 5,
+      "example_ids": [
+        "wide-026",
+        "wide-033",
+        "wide-040",
+        "wide-051",
+        "wide-053"
+      ]
+    },
+    "affordance": {
+      "responses": 8,
+      "example_ids": [
+        "wide-013",
+        "wide-015",
+        "wide-029",
+        "wide-043",
+        "wide-055"
+      ]
+    },
+    "salient": {
+      "responses": 8,
+      "example_ids": [
+        "wide-004",
+        "wide-029",
+        "wide-035",
+        "wide-041",
+        "wide-054"
+      ]
+    },
+    "robust_actionable": {
+      "responses": 14,
+      "example_ids": [
+        "wide-006",
+        "wide-008",
+        "wide-016",
+        "wide-017",
+        "wide-021"
+      ]
+    },
+    "scope_qualifiers": {
+      "responses": 8,
+      "example_ids": [
+        "wide-008",
+        "wide-020",
+        "wide-039",
+        "wide-052",
+        "wide-055"
+      ]
+    }
+  },
+  "validation": {
+    "epistemic": {
+      "responses": 5,
+      "example_ids": [
+        "laundry-2",
+        "decor-1",
+        "decor-3",
+        "party-2",
+        "party-4"
+      ]
+    },
+    "excited": {
+      "responses": 9,
+      "example_ids": [
+        "laundry-1",
+        "decline-1",
+        "decline-2",
+        "decline-3",
+        "decor-1"
+      ]
+    },
+    "capitalized_phrase": {
+      "responses": 15,
+      "example_ids": [
+        "laundry-1",
+        "laundry-2",
+        "laundry-3",
+        "laundry-4",
+        "decline-1"
+      ]
+    },
+    "my_model": {
+      "responses": 6,
+      "example_ids": [
+        "laundry-1",
+        "decline-4",
+        "decor-2",
+        "decor-4",
+        "party-1"
+      ]
+    },
+    "priors_updates": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "hedges": {
+      "responses": 3,
+      "example_ids": [
+        "decline-1",
+        "party-3",
+        "wide-009"
+      ]
+    },
+    "community_terms": {
+      "responses": 1,
+      "example_ids": [
+        "wide-070"
+      ]
+    },
+    "orthogonal": {
+      "responses": 2,
+      "example_ids": [
+        "wide-069",
+        "wide-071"
+      ]
+    },
+    "crux": {
+      "responses": 1,
+      "example_ids": [
+        "wide-070"
+      ]
+    },
+    "load_bearing": {
+      "responses": 2,
+      "example_ids": [
+        "wide-069",
+        "wide-071"
+      ]
+    },
+    "directionally": {
+      "responses": 1,
+      "example_ids": [
+        "wide-009"
+      ]
+    },
+    "operationalise": {
+      "responses": 1,
+      "example_ids": [
+        "wide-012"
+      ]
+    },
+    "legibility": {
+      "responses": 3,
+      "example_ids": [
+        "wide-012",
+        "wide-069",
+        "wide-071"
+      ]
+    },
+    "on_the_margin": {
+      "responses": 1,
+      "example_ids": [
+        "wide-009"
+      ]
+    },
+    "nontrivial": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "bottleneck": {
+      "responses": 1,
+      "example_ids": [
+        "wide-009"
+      ]
+    },
+    "conditional": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "cached_thought": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "views_levels": {
+      "responses": 1,
+      "example_ids": [
+        "wide-070"
+      ]
+    },
+    "charitable_disagreement": {
+      "responses": 2,
+      "example_ids": [
+        "wide-069",
+        "wide-070"
+      ]
+    },
+    "counterfactual": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "gears_level": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "affordance": {
+      "responses": 1,
+      "example_ids": [
+        "wide-010"
+      ]
+    },
+    "salient": {
+      "responses": 0,
+      "example_ids": []
+    },
+    "robust_actionable": {
+      "responses": 3,
+      "example_ids": [
+        "wide-010",
+        "wide-011",
+        "wide-072"
+      ]
+    },
+    "scope_qualifiers": {
+      "responses": 2,
+      "example_ids": [
+        "wide-011",
+        "wide-072"
+      ]
+    }
+  }
+}
