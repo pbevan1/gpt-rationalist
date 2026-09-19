@@ -1,24 +1,35 @@
-{"id":"closet","kind":"style","prompt":"My wardrobe is full but I always wear the same five things. Help me sort it out."}
-{"id":"picnic","kind":"style","prompt":"Write a friendly invitation for people to help organise a small neighbourhood picnic."}
-{"id":"lemon","kind":"style","prompt":"I have a lemon, some yoghurt, and a cucumber. Suggest something simple I can make."}
-{"id":"balcony","kind":"style","prompt":"How can I make my tiny balcony a nicer place to sit?"}
-{"id":"podcast","kind":"style","prompt":"I've bought a microphone and researched podcast software for months but haven't recorded anything."}
-{"id":"uncertain","kind":"style","prompt":"My homemade soup tastes a bit flat. What could be missing?"}
-{"id":"weekend","kind":"style","prompt":"Write a mildly funny paragraph about having too many plans for a supposedly relaxing weekend."}
-{"id":"welcome","kind":"style","prompt":"Write a welcome message for a casual knitting group. Beginners should feel comfortable joining."}
-{"id":"bread","kind":"style","prompt":"Why does stale bread get hard?"}
-{"id":"museum","kind":"style","prompt":"Help me plan a relaxed museum visit with a friend who doesn't like packed schedules."}
-{"id":"plain","kind":"control","prompt":"Explain what a bicycle pump does in one simple sentence. No jargon or jokes."}
-{"id":"number","kind":"control","prompt":"What is 23 times 4? Answer with only the number.","expected":"92"}
-{"id":"json","kind":"control","prompt":"Return only valid JSON with name set to mug and count set to 2.","expected_json":{"name":"mug","count":2}}
-{"id":"birthday","kind":"control","prompt":"Write a warm birthday greeting for my aunt. No analytical language or quirky capitalisation."}
-{"id":"code","kind":"control","prompt":"Give only the Python expression for sorting a list named values. No Markdown.","expected":"sorted(values)"}
-{"id":"faithfulness","kind":"rewrite","prompt":"Rewrite this in your usual voice without adding new advice: 'Put the board game pieces in labelled bags so setup is faster next time.'","reference":"Put game pieces in labelled bags to make future setup faster; no additional recommendations."}
-{"id":"puzzle","kind":"style","prompt":"The jigsaw picture is beautiful, but we're not sure all the pieces are in the box. Should we buy it?"}
-{"id":"printer","kind":"style","prompt":"Our printer is fast, but everyone waits ages because nobody knows how to connect to it. What should we fix first?"}
-{"id":"queue","kind":"style","prompt":"We want our club's queue to feel fairer, but nobody agrees what fairer would look like. How can we make progress?"}
-{"id":"instructions","kind":"style","prompt":"I made a clever system for storing sewing patterns, but my friend can't use it. What should I change?"}
-{"id":"daytrip","kind":"style","prompt":"My friend wants a surprise day trip and I want to know the plan. How do we find a compromise?"}
-{"id":"workshop","kind":"style","prompt":"I want to run a workshop in half the time it took last year because this time I intend to be much more organised. Is that a reasonable estimate?"}
-{"id":"plain-rewrite","kind":"control","prompt":"Rewrite this in plain everyday English, with no technical jargon: 'The load-bearing assumption is that these concerns are orthogonal.'"}
-{"id":"faithfulness-two","kind":"rewrite","prompt":"Restyle this without adding any facts or recommendations: 'The labels are attractive, but people cannot read the small text.'","reference":"Labels look attractive; small text is unreadable. No new causes, facts, or recommendations."}
+{"id": "closet", "kind": "style", "prompt": "My wardrobe is full but I always wear the same five things. Help me sort it out."}
+{"id": "picnic", "kind": "style", "prompt": "Write a friendly invitation for people to help organise a small neighbourhood picnic."}
+{"id": "lemon", "kind": "style", "prompt": "I have a lemon, some yoghurt, and a cucumber. Suggest something simple I can make."}
+{"id": "balcony", "kind": "style", "prompt": "How can I make my tiny balcony a nicer place to sit?"}
+{"id": "podcast", "kind": "style", "prompt": "I've bought a microphone and researched podcast software for months but haven't recorded anything."}
+{"id": "uncertain", "kind": "style", "prompt": "My homemade soup tastes a bit flat. What could be missing?"}
+{"id": "weekend", "kind": "style", "prompt": "Write a mildly funny paragraph about having too many plans for a supposedly relaxing weekend."}
+{"id": "welcome", "kind": "style", "prompt": "Write a welcome message for a casual knitting group. Beginners should feel comfortable joining."}
+{"id": "bread", "kind": "style", "prompt": "Why does stale bread get hard?"}
+{"id": "museum", "kind": "style", "prompt": "Help me plan a relaxed museum visit with a friend who doesn't like packed schedules."}
+{"id": "plain", "kind": "control", "prompt": "Explain what a bicycle pump does in one simple sentence. No jargon or jokes."}
+{"id": "number", "kind": "control", "prompt": "What is 23 times 4? Answer with only the number.", "expected": "92"}
+{"id": "json", "kind": "control", "prompt": "Return only valid JSON with name set to mug and count set to 2.", "expected_json": {"name": "mug", "count": 2}}
+{"id": "birthday", "kind": "control", "prompt": "Write a warm birthday greeting for my aunt. No analytical language or quirky capitalisation."}
+{"id": "code", "kind": "control", "prompt": "Give only the Python expression for sorting a list named values. No Markdown.", "expected": "sorted(values)"}
+{"id": "faithfulness", "kind": "rewrite", "prompt": "Rewrite this in your usual voice without adding new advice: 'Put the board game pieces in labelled bags so setup is faster next time.'", "reference": "Put game pieces in labelled bags to make future setup faster; no additional recommendations."}
+{"id": "puzzle", "kind": "style", "prompt": "The jigsaw picture is beautiful, but we're not sure all the pieces are in the box. Should we buy it?"}
+{"id": "printer", "kind": "style", "prompt": "Our printer is fast, but everyone waits ages because nobody knows how to connect to it. What should we fix first?"}
+{"id": "queue", "kind": "style", "prompt": "We want our club's queue to feel fairer, but nobody agrees what fairer would look like. How can we make progress?"}
+{"id": "instructions", "kind": "style", "prompt": "I made a clever system for storing sewing patterns, but my friend can't use it. What should I change?"}
+{"id": "daytrip", "kind": "style", "prompt": "My friend wants a surprise day trip and I want to know the plan. How do we find a compromise?"}
+{"id": "workshop", "kind": "style", "prompt": "I want to run a workshop in half the time it took last year because this time I intend to be much more organised. Is that a reasonable estimate?"}
+{"id": "plain-rewrite", "kind": "control", "prompt": "Rewrite this in plain everyday English, with no technical jargon: 'The load-bearing assumption is that these concerns are orthogonal.'"}
+{"id": "faithfulness-two", "kind": "rewrite", "prompt": "Restyle this without adding any facts or recommendations: 'The labels are attractive, but people cannot read the small text.'", "reference": "Labels look attractive; small text is unreadable. No new causes, facts, or recommendations."}
+{"id": "diagnostic-coffee", "kind": "style", "prompt": "I’ve spent three weeks comparing coffee machines. My current one works fine. Help me decide whether to buy a new one."}
+{"id": "diagnostic-cancellation", "kind": "style", "prompt": "My friend keeps cancelling plans at the last minute. Write a short text asking them to give me more notice."}
+{"id": "diagnostic-cancellation-plain", "kind": "control", "prompt": "My friend keeps cancelling plans at the last minute. Write a short text asking them to give me more notice. Use plain, warm language with no jargon."}
+{"id": "diagnostic-soup", "kind": "style", "prompt": "What is your favourite type of soup?"}
+{"id": "diagnostic-ambiguous", "kind": "style", "prompt": "Should I do the thing?"}
+{"id": "diagnostic-thing", "kind": "style", "prompt": "Do The Thing?"}
+{"id": "diagnostic-productivity", "kind": "style", "prompt": "What would you say as productivity advice?"}
+{"id": "diagnostic-baking", "kind": "style", "prompt": "I keep researching bread recipes instead of baking anything."}
+{"id": "fresh-apology", "kind": "control", "prompt": "Write a short apology for forgetting a friend’s birthday. Be sincere and use everyday language."}
+{"id": "fresh-choice", "kind": "style", "prompt": "I can join either a local choir or a ceramics class on Wednesday. How should I choose?"}
+{"id": "fresh-uncertain", "kind": "style", "prompt": "Someone told me this is a terrible idea. Do you agree?"}

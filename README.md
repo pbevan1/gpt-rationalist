@@ -58,7 +58,13 @@ uv run --locked evaluate.py outputs/base.jsonl outputs/styled.jsonl
 
 Read `outputs/comparison.md` to compare style, helpfulness, and compliance with plain
 language requests. Phrase counts and validation loss are diagnostics, not quality
-scores. Each chat prompt starts a fresh conversation.
+scores. Chat streams replies by default; use `--no-stream` for completed answers
+only, or `--max-new-tokens 512` to allow longer answers (default: 256).
+Each chat prompt starts a fresh conversation. Interactive mode loads the model once:
+
+```bash
+uv run --locked --group train chat.py
+```
 
 ## Data and changes
 
@@ -74,7 +80,19 @@ and their end-of-turn token receive loss.
 
 After editing the pairs or model/tokenizer settings in `config.json`, rerun
 `uv run --locked prepare.py` and `uv run --locked train.py --check`. When changing
-models, also update the pinned model revision.
+models, also update the pinned model revision. Train changed data from the base
+model into a new directory so the previous adapter stays available for comparison:
+
+```bash
+uv run --locked --group train train.py --output outputs/rationalist-lora-v2
+uv run --locked --group train chat.py --adapter outputs/rationalist-lora-v2/adapter
+```
+
+Prefer useful distinctions and concrete advice to repeated catchphrases. Keep
+enthusiasm contextual, social messages natural, and ambiguous questions genuinely
+open to clarification. Keep evaluation prompts out of training. Evaluation reports
+include marker prevalence and repeated enthusiasm; read the answers as well as the
+counts. Use the same evaluation file and generation settings to compare adapters.
 
 Run the data and tiny-model tests with:
 

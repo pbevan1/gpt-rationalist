@@ -2,6 +2,7 @@
 import argparse
 from collections import Counter
 import json
+import re
 from pathlib import Path
 
 from common import read_jsonl
@@ -12,6 +13,12 @@ def summarize(rows):
     styled = [r for r in rows if r.get('kind') == 'style']
     words = sum(len(r['response'].split()) for r in styled)
     counts = sum((Counter(markers(r['response'])) for r in styled), Counter())
+    # Report response-level concentration as well as aggregate word counts.
+    prevalence = {name: sum(markers(r['response'])[name] > 0 for r in styled)
+                  for name in markers("")}
+    repeated = [r['id'] for r in rows
+                if len(re.findall(r"\b(?:i'd|we'd|i am|i'm|we are|we're)\s+(?:be\s+)?excited\b",
+                                  r['response'], re.I)) > 1]
     checks = {}
     for row in rows:
         if 'expected' in row:
@@ -21,7 +28,10 @@ def summarize(rows):
                 checks[row['id']] = json.loads(row['response']) == row['expected_json']
             except ValueError:
                 checks[row['id']] = False
-    return {'style_words': words, 'markers_per_1000_words': {k: round(v * 1000 / max(1, words), 2) for k, v in counts.items()},
+    return {'style_responses': len(styled), 'style_words': words,
+            'responses_with_marker': prevalence, 'repeated_enthusiasm_ids': repeated,
+            'control_marker_counts': {r['id']: {k: v for k, v in markers(r['response']).items() if v}
+                                      for r in rows if r.get('kind') == 'control'}, 'markers_per_1000_words': {k: round(v * 1000 / max(1, words), 2) for k, v in counts.items()},
             'exact_controls': checks}
 
 

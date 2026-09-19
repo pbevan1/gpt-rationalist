@@ -69,6 +69,25 @@ def add_lora(model, cfg):
     ))
 
 
+def make_training_arguments(cfg, output, max_steps=-1, *, use_cpu=False):
+    from transformers import TrainingArguments
+
+    # Non-reentrant checkpointing works with frozen embeddings and PEFT.
+    return TrainingArguments(
+        output_dir=str(output), num_train_epochs=cfg["epochs"], max_steps=max_steps,
+        per_device_train_batch_size=1, per_device_eval_batch_size=1,
+        gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
+        learning_rate=cfg["learning_rate"], warmup_steps=0.03, lr_scheduler_type="cosine",
+        weight_decay=0.01, max_grad_norm=1.0, bf16=not use_cpu, use_cpu=use_cpu,
+        gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False},
+        optim="adamw_torch", logging_steps=1, eval_strategy="epoch",
+        save_strategy="epoch", save_total_limit=2, load_best_model_at_end=True,
+        metric_for_best_model="eval_loss", greater_is_better=False,
+        prediction_loss_only=True, report_to="none", seed=cfg["seed"],
+        dataloader_pin_memory=not use_cpu, dataloader_num_workers=0, remove_unused_columns=False,
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="config.json")
@@ -85,12 +104,13 @@ def main():
         return
 
     import torch
-    from transformers import AutoTokenizer, Qwen3_5ForConditionalGeneration, Trainer, TrainingArguments, set_seed
+    from transformers import AutoTokenizer, Qwen3_5ForConditionalGeneration, Trainer, set_seed
     if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
         raise SystemExit("Training requires a CUDA GPU with BF16 support (e.g. RTX 4090, A10, L4, A100).")
     output = Path(args.output)
     if output.exists() and any(output.iterdir()) and not args.resume:
         raise SystemExit("Output directory is nonempty. Use --resume or a new --output.")
+    training_args = make_training_arguments(cfg, output, args.max_steps)
     set_seed(cfg["seed"])
     tokenizer = AutoTokenizer.from_pretrained("data/tokenizer", local_files_only=True)
     model = Qwen3_5ForConditionalGeneration.from_pretrained(
@@ -100,20 +120,6 @@ def main():
     model.config.text_config.use_cache = False
     model = add_lora(model, cfg)
     model.print_trainable_parameters()
-    # Non-reentrant checkpointing works with frozen embeddings and PEFT.
-    training_args = TrainingArguments(
-        output_dir=str(output), num_train_epochs=cfg["epochs"], max_steps=args.max_steps,
-        per_device_train_batch_size=1, per_device_eval_batch_size=1,
-        gradient_accumulation_steps=cfg["gradient_accumulation_steps"],
-        learning_rate=cfg["learning_rate"], warmup_ratio=0.03, lr_scheduler_type="cosine",
-        weight_decay=0.01, max_grad_norm=1.0, bf16=True,
-        gradient_checkpointing=True, gradient_checkpointing_kwargs={"use_reentrant": False},
-        optim="adamw_torch", logging_steps=1, eval_strategy="epoch",
-        save_strategy="epoch", save_total_limit=2, load_best_model_at_end=True,
-        metric_for_best_model="eval_loss", greater_is_better=False,
-        prediction_loss_only=True, report_to="none", seed=cfg["seed"],
-        dataloader_num_workers=0, remove_unused_columns=False,
-    )
     trainer = Trainer(model=model, args=training_args,
                       train_dataset=data["train"], eval_dataset=data["validation"],
                       data_collator=Collator(tokenizer.pad_token_id), processing_class=tokenizer)

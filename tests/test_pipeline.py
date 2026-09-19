@@ -6,11 +6,33 @@ import unittest
 from collect import clean_html
 from common import config, encode_example, read_jsonl
 from prepare import split_pairs
-from train import Collator, add_lora, validate_data
+from train import make_training_arguments, Collator, add_lora, validate_data
 from style import markers
 
 
 class DataTests(unittest.TestCase):
+    def test_dataset_enthusiasm_and_eval_isolation(self):
+        rows = read_jsonl('style_pairs.jsonl')
+        excited = [r for r in rows if markers(r['response'])['excited']]
+        self.assertLessEqual(len(excited) / len(rows), 0.05)
+        self.assertTrue(all(markers(r['response'])['excited'] <= 1 for r in rows))
+        self.assertFalse(any(markers(r['response'])['excited'] for r in rows if r.get('control')))
+        evaluation = read_jsonl('eval_prompts.jsonl')
+        self.assertFalse({r['prompt'].strip().casefold() for r in rows} &
+                         {r['prompt'].strip().casefold() for r in evaluation})
+
+    def test_evaluation_reports_catchphrase_concentration(self):
+        from evaluate import summarize
+        report = summarize([
+            {'id': 'repeated', 'kind': 'style', 'response': "I'd be excited. I'd be excited again."},
+            {'id': 'plain', 'kind': 'style', 'response': 'Try a short walk.'},
+            {'id': 'control', 'kind': 'control', 'response': "I'd be excited."},
+        ])
+        self.assertEqual(report['style_responses'], 2)
+        self.assertEqual(report['responses_with_marker']['excited'], 1)
+        self.assertEqual(report['repeated_enthusiasm_ids'], ['repeated'])
+        self.assertEqual(report['control_marker_counts']['control']['excited'], 1)
+
     def test_capitalized_phrase_before_punctuation(self):
         self.assertEqual(markers('Time to Do The Thing.')['capitalized_phrase'], 1)
 
@@ -66,7 +88,7 @@ class ModelTests(unittest.TestCase):
     def test_hybrid_lora_forward_backward_and_reload(self):
         import torch
         from peft import PeftModel
-        from transformers import Qwen3_5Config, Qwen3_5ForConditionalGeneration, Trainer, TrainingArguments
+        from transformers import Qwen3_5Config, Qwen3_5ForConditionalGeneration, Trainer
         cfg = Qwen3_5Config(
             text_config=dict(vocab_size=128, hidden_size=32, intermediate_size=64,
                              num_hidden_layers=2, num_attention_heads=2, num_key_value_heads=1,
@@ -107,23 +129,46 @@ class ModelTests(unittest.TestCase):
             with torch.no_grad():
                 actual = restored(**batch).logits
             torch.testing.assert_close(actual, expected)
+        # Verify the actual inference options work with the hybrid model and
+        # streaming does not alter the returned token sequence.
+        import contextlib
+        import io
+        from tokenizers import Tokenizer
+        from tokenizers.models import WordLevel
+        from transformers import PreTrainedTokenizerFast, TextStreamer
+        from chat import generation_options
+        backend = Tokenizer(WordLevel({str(i): i for i in range(128)}, unk_token='1'))
+        tokenizer = PreTrainedTokenizerFast(tokenizer_object=backend, pad_token='0', eos_token='2', unk_token='1')
+        options = generation_options(tokenizer, 3)
+        prompt = torch.tensor([[10, 11, 12]])
+        attention = torch.ones_like(prompt)
+        torch.manual_seed(42)
+        with torch.inference_mode():
+            generated = model.generate(input_ids=prompt, attention_mask=attention, **options)
+        torch.manual_seed(42)
+        with contextlib.redirect_stdout(io.StringIO()) as displayed, torch.inference_mode():
+            streamed = model.generate(input_ids=prompt, attention_mask=attention, **options,
+                                      streamer=TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True))
+        torch.testing.assert_close(streamed, generated)
+        self.assertEqual(displayed.getvalue().strip(), tokenizer.decode(generated[0, 3:], skip_special_tokens=True).strip())
+        self.assertGreater(generated.shape[1], 3)
+        self.assertLessEqual(generated.shape[1], 6)
         # Exercise the real Trainer integration, including evaluation and checkpoints.
         with tempfile.TemporaryDirectory() as directory:
             trainer = Trainer(
                 model=model,
-                args=TrainingArguments(output_dir=directory, use_cpu=True, max_steps=1,
-                                       per_device_train_batch_size=1, per_device_eval_batch_size=1,
-                                       gradient_accumulation_steps=2, report_to='none',
-                                       eval_strategy='epoch', save_strategy='epoch',
-                                       load_best_model_at_end=True, metric_for_best_model='eval_loss',
-                                       greater_is_better=False, prediction_loss_only=True,
-                                       remove_unused_columns=False, dataloader_pin_memory=False,
-                                       gradient_checkpointing=True,
-                                       gradient_checkpointing_kwargs={'use_reentrant': False}),
+                args=make_training_arguments(
+                    {**config(), 'gradient_accumulation_steps': 2}, directory,
+                    max_steps=2, use_cpu=True),
                 train_dataset=[row, row], eval_dataset=[row], data_collator=Collator(0),
             )
+            self.assertEqual(trainer.args.get_warmup_steps(100), 3)
+            self.assertEqual(trainer.args.get_warmup_steps(5), 1)
+            before_training = {n: p.detach().clone() for n, p in model.named_parameters() if p.requires_grad}
             result = trainer.train()
-            self.assertEqual(result.global_step, 1)
+            self.assertTrue(any(not torch.equal(before_training[n], p.detach())
+                                for n, p in model.named_parameters() if n in before_training))
+            self.assertEqual(result.global_step, 2)
             self.assertTrue(torch.isfinite(torch.tensor(result.training_loss)))
 
 
